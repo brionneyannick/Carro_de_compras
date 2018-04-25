@@ -1,5 +1,9 @@
 class ProductsController < ApplicationController
   def index
-    @products = Product.all
+    if params[:buscar].present?
+      @products = Product.where('name like ?', "%#{params[:buscar]}%")
+    else
+      @products = Product.all
+    end
   end
 end

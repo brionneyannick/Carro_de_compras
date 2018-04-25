@@ -1,14 +1,36 @@
+<br>
 <div class="row">
-  <% @products.each do |product| %>
-    <div class="col-md-3 mt-md-5">
-      <div class="card text-center" style="margin-top ;">
-        <%= image_tag product.photo, class: "card-img-top" %>
-        <div class="card-body">
-          <h6 class="card-title"><%= product.name %></h5>
-          <p class="card-text">$<%= product.price %></p>
-          <a href="<%= product_orders_path(product) %>" class="btn btn-primary" data-method="post"><i class="fas fa-cart-arrow-down btn-primary"></i></a>
-        </div>
+  <div class="col-md-4 offset-md-4">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">
+          <i class="fas fa-search"></i>
+        </span>
       </div>
+      <input type="text" class="form-control" placeholder="Busca un producto aquí..." id="buscar" >
     </div>
-  <% end %>
+  </div>
 </div>
+<div class="row" id="products">
+  <%= render @products %> <!-- Esto renderiza una vista del mismo nombre pero en singular -->
+</div>
+<script>
+
+  $('#buscar').keyup(function() {
+
+    $.ajax({
+      url: '<%= products_path %>',
+      type: 'GET',
+      dataType: 'script',
+      data: {buscar: $('#buscar').val()}
+    })
+    .done(function() {
+      console.log("success");
+    })
+    .fail(function() {
+      console.log("error");
+    });
+
+  });
+
+</script>
